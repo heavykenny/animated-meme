@@ -22,9 +22,15 @@ class ProductController extends Controller
 
     public function create(Request $request)
     {
+        $request->validate([
+            'product_name' => 'required|string',
+            'product_quantity' => 'required|integer',
+            'product_price' => 'required|integer'
+        ]);
+
         $response = $this->productRepo->create($request->all());
         if ($response['error']) {
-            return redirect()->route("welcome");
+            return redirect()->back()->with('error', $response['message']);
         }else{
             return redirect()->route("welcome");
         }
