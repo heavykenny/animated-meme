@@ -24,9 +24,9 @@ class ProductController extends Controller
     {
         $response = $this->productRepo->create($request->all());
         if ($response['error']) {
-            return $response['message'];
+            return redirect()->route("welcome");
         }else{
-            return $response['data'];
+            return redirect()->route("welcome");
         }
     }
 

@@ -34,21 +34,28 @@ class ProductService implements ProductInterface
         if ($store) {
             return [
                 'error' => false,
-                'message' => 'Error while saving.',
+                'message' => 'Successfully Saved.',
+                'data' => $products
             ];
         }
 
         return [
             'error' => false,
-            'message' => 'Successfully Saved.',
-            'data' => $products
+            'message' => 'Error while saving.',
         ];
     }
 
-    public function getProducts()
+    public function getProducts(): array
     {
         $path = storage_path() . "/products.json";
-        return json_decode(file_get_contents($path), true);
+
+        $products = json_decode(file_get_contents($path), true);
+
+        usort($products, function($a, $b) {
+            return $a["created_at"] > $b["created_at"] ? -1 : 1;
+        });
+
+        return $products;
     }
 
     public function saveProduct($product)

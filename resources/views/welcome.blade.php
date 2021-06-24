@@ -41,6 +41,7 @@
                     <th scope="col">Product name</th>
                     <th scope="col">Quantity in stock</th>
                     <th scope="col">Price per item</th>
+                    <th scope="col">Total value number</th>
                     <th scope="col">Datetime submitted</th>
                 </tr>
                 </thead>
@@ -51,6 +52,7 @@
                         <td>{{ $product["product_name"] }}</td>
                         <td>{{ $product["product_quantity"] }}</td>
                         <td>{{ $product["product_price"] }}</td>
+                        <td>{{ $product["product_total"] }}</td>
                         <td>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($product["created_at"]))->diffForHumans() }}</td>
                     </tr>
                 @empty
@@ -61,7 +63,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td colspan="3" class="table-active font-weight-bold">Total Value Number</td>
+                    <td colspan="4" class="table-active font-weight-bold">Total Value Number</td>
                     <td>{{ array_sum(array_column($products, "product_total")) }}</td>
                 </tr>
                 </tfoot>
@@ -86,7 +88,8 @@
                 "product_price": price
             },
             success: function (response) {
-
+                location.reload();
+                return false;
             }
         });
     }
